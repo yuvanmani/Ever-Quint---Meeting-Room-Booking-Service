@@ -1,0 +1,25 @@
+{
+  "name": "ever-quint---meeting-room-booking-service",
+  "version": "1.0.0",
+  "description": "Ever Quint - Meeting Room Booking Service",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuvanmani/Ever-Quint---Meeting-Room-Booking-Service.git"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "Manivannan Rajendran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuvanmani/Ever-Quint---Meeting-Room-Booking-Service/issues"
+  },
+  "homepage": "https://github.com/yuvanmani/Ever-Quint---Meeting-Room-Booking-Service#readme"
+}
