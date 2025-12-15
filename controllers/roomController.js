@@ -45,6 +45,68 @@ const roomController = {
 
             return res.status(500).json({ errors: "Internal server error" });
         }
+    },
+    getRooms: async (req, res) => {
+        try {
+            const minCapacity = Number(req.query.minCapacity);
+            const amenities = req.query.amenity;
+
+            // if no filters are given, return all rooms
+            if (!minCapacity && !amenities) {
+                const rooms = await Room.find().select("-__v");
+
+                if (rooms.length < 1) {
+                    return res.status(400).json({ message: "No rooms found." })
+                }
+
+                res.status(200).json(rooms);
+            }
+
+            // check minCapacity exists & is an integer
+            else if (minCapacity && !Number.isInteger(minCapacity)) {
+                return res.status(400).json({ message: "minCapacity must be an integer" });
+            }
+
+            // if both filters are given
+            else if (minCapacity && amenities) {
+                const amenityQuery = amenities.split(",");
+                const rooms = await Room.find({ capacity: { $gte: minCapacity }, amenities: { $in: amenityQuery } }).select("-__v");
+
+                if (rooms.length < 1) {
+                    return res.status(400).json({ message: "No rooms found." })
+                }
+
+                res.status(200).json(rooms)
+            }
+
+            // if minCapacity only given
+            else if (minCapacity) {
+                const rooms = await Room.find({ capacity: { $gte: minCapacity } }).select("-__v");
+
+                if (rooms.length < 1) {
+                    return res.status(400).json({ message: "No rooms found." })
+                }
+
+                res.status(200).json(rooms);
+            }
+
+            // if amenity only given
+            else if (amenities) {
+                const amenityQuery = amenities.split(",");
+
+                const rooms = await Room.find({ amenities: { $in: amenityQuery } }).select("-__v");
+
+                if (rooms.length < 1) {
+                    return res.status(400).json({ message: "No rooms found." })
+                }
+
+                res.status(200).json(rooms);
+            }
+
+        }
+        catch (error) {
+            res.status(400).json({ message: "Retrieve rooms failed." });
+        }
     }
 }
 
