@@ -31,6 +31,10 @@ const roomSchema = new mongoose.Schema({
     },
     amenities: {
         type: [String]
+    },
+    timeZone: {
+        type: String,
+        default: "Asia/Kolkata" // to ensure bookings are in room's local time
     }
 }, { timestamps: true })
 
