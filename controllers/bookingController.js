@@ -115,7 +115,7 @@ const bookingController = {
             await newBooking.save();
 
             // send response to the user
-            res.status(201).json({ message: "Booking Status : Confirmed" });
+            res.status(201).json(newBooking);
 
         }
         catch (error) {

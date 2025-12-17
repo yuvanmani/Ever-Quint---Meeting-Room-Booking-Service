@@ -18,6 +18,10 @@ const bookingSchema = new mongoose.Schema({
     endTime: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: "confirmed"
     }
 })
 
