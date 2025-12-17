@@ -121,6 +121,189 @@ const bookingController = {
         catch (error) {
             res.status(400).json({ message: error.message });
         }
+    },
+    getBookings: async (req, res) => {
+        try {
+            // get the details from the request query
+            const { roomId, from, to, limit, offset } = req.query;
+
+            // if no filters given send all bookings with limit & offset
+            if (!roomId && !from && !to) {
+                const bookings = await Booking.find().select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement     
+                const totalDocuments = await Booking.countDocuments();
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if roomId, from, to are given
+            if (roomId && from && to) {
+                const bookings = await Booking.find({ roomId: roomId, startTime: { $lt: to }, endTime: { $gt: from } }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+                const totalDocuments = await Booking.countDocuments({ roomId: roomId, startTime: { $lt: to }, endTime: { $gt: from } });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if roomId & from only given
+            else if (roomId && from) {
+                const bookings = await Booking.find({ roomId: roomId, endTime: { $gt: from } }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+
+                const totalDocuments = await Booking.countDocuments({ roomId: roomId, endTime: { $gt: from } });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if roomId & to only given
+            else if (roomId && to) {
+                const bookings = await Booking.find({ roomId: roomId, startTime: { $lt: to } }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+
+                const totalDocuments = await Booking.countDocuments({ roomId: roomId, startTime: { $lt: to } });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if from & to only given
+            else if (from && to) {
+                const bookings = await Booking.find({ startTime: { $lt: to }, endTime: { $gt: from } }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+
+                const totalDocuments = await Booking.countDocuments({ startTime: { $lt: to }, endTime: { $gt: from } });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if roomId only given
+            else if (roomId) {
+                const bookings = await Booking.find({ roomId: roomId }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+
+                const totalDocuments = await Booking.countDocuments({ roomId: roomId });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if from only given
+            else if (from) {
+                const bookings = await Booking.find({ endTime: { $gt: from } }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+
+                const totalDocuments = await Booking.countDocuments({ endTime: { $gt: from } });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+            // if to only given
+            else if (to) {
+                const bookings = await Booking.find({ startTime: { $lt: to } }).select("-__v").limit(Number(limit)).skip(Number(offset));
+
+                if (bookings.length <= 0) {
+                    return res.status(200).json({ message: "No bookings found" });
+                }
+
+                // response as per question statement
+
+                const totalDocuments = await Booking.countDocuments({ startTime: { $lt: to } });
+
+                const finalResponse = {
+                    items: bookings,
+                    total: Number(totalDocuments),
+                    limit: Number(limit),
+                    offset: Number(offset)
+                }
+
+                return res.status(200).json(finalResponse);
+            }
+
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
     }
 }
 
