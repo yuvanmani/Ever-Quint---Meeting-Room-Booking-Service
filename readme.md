@@ -18,7 +18,7 @@ the application include :
   Create a new booking : POST /bookings
   List bookings : GET /bookings
 
-## Explanation about the application
+## About application
 
 -- All given instructions have been strictly followed throughout the application,
 -- Proper validation is implemented consistently across all modules to ensure data integrity.
@@ -48,3 +48,10 @@ the application include :
 ### server.js
 -- Establishes and manages the connection to the database during server initialization.
 -- Starts the HTTP server by calling app.listen() on the configured express application.
+
+### Testing of End Points
+
+-- All POST and GET requests have been thoroughly tested, and appropriate HTTP status codes are implemented based on the action performed.
+-- Input validations are properly implemented to prevent invalid requests.
+-- All API endpoints and corresponding test results are comprehensively documented in a PDF file attached to this repository,
+-- Error handling and response messages are standardized to provide clear and meaningful feedback for both successful and failed requests.
